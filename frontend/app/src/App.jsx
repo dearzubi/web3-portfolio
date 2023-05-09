@@ -1,19 +1,19 @@
 import React from 'react';
-import Navbar from './components/Navbar';
+import { Route, Routes} from 'react-router-dom';
+import Home from './components/Home';
 import BuyCoffee from './components/BuyCoffee';
-import Profile from './components/Profile';
-import Expertise from './components/Expertise';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
 
-    <div className="flex flex-wrap justify-center">
-
-      <Navbar/>
-      <Profile/>
-      <Expertise/>
-
-    </div>
+    <main>
+      <Routes>
+        <Route path="*" element={<NotFound/>}></Route>
+        <Route path='/' element={<Home/>} exact />
+        <Route path='/buy-me-a-coffee' element={<BuyCoffee/>} />
+      </Routes>
+    </main>
   );
 }
 

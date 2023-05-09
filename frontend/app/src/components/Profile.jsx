@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ProfilePic from '../assets/img/profile-pic.jpg';
 import ProfileLinks from './ProfileLinks';
+import CoffeeCupIcon from '../assets/img/coffee-cup.png';
 
 export default function Profile() {
 
@@ -17,9 +19,22 @@ export default function Profile() {
             <span className='basis-full'></span>
             <ProfileLinks/>
             <span className='basis-full'></span>
-            <button className="bg-gray-700 text-white rounded-sm py-[10px] px-[30px] shadow-sm font-text hover:text-gray-700 hover:bg-white transition-colors">
+            {/* <button className="bg-gray-700 text-white rounded-sm py-[10px] px-[30px] shadow-sm font-text hover:text-gray-700 hover:bg-white transition-colors mr-2">
                 Get my CV
-            </button>
+            </button> */}
+            <Link to="/buy-me-a-coffee">
+
+                <button className="bg-white text-gray-700 rounded-sm py-[10px] px-[10px] shadow-sm font-text hover:text-white hover:bg-gray-700 transition-colors">
+
+                    <span className='flex flex-wrap gap-x-2'>
+                        <img className='w-[24px] h-[24px]' src={CoffeeCupIcon}></img>
+                        <span>Buy me a Coffee</span>
+                    </span>
+
+                </button>
+
+            </Link>
+            
         </div>
     );
 
