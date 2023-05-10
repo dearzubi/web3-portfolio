@@ -5,15 +5,18 @@ import USDTLogo from '../assets/img/icons/tether-usdt-logo.svg';
 import ETHLogo from '../assets/img/icons/ether-logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmileBeam} from '@fortawesome/free-regular-svg-icons';
-import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons';
+import {faArrowLeftLong, faPlugCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import CoffeeMessage from './CoffeeMessage';
+import ConnectWallet from './ConnectWallet';
 
 export default function BuyCoffee() {
 
     const [name, setName] = useState('');
+    const [linkedin, setLinkedin] = useState('');
     const [message, setMessage] = useState('');
     const [currency, setCurrency] = useState('USDT'); // ['USDT', 'ETH'
     const [coffeeCount, setCoffeeCount] = useState(1);
+    const [connectedAccuont, setConnectedAccount] = useState(null);
 
     return (
 
@@ -21,20 +24,24 @@ export default function BuyCoffee() {
         <div className='flex flex-wrap px-[50px] py-[100px] gap-y-12'>
 
             <Link to="/">
-                <button className="bg-white rounded-sm py-[10px] px-[20px] shadow-sm font-text hover:text-white hover:bg-gray-700 transition-colors">
+                <button className="bg-white rounded-sm py-[5px] px-[10px] shadow-sm font-text text-sm hover:text-white hover:bg-gray-700 transition-colors">
                     <FontAwesomeIcon icon={faArrowLeftLong} className='mr-2'/> Home
                 </button>
             </Link>
 
-            <div className='basis-full flex flex-wrap items-end font-heading text-3xl font-bold'>
+            <div className='basis-full flex flex-wrap items-end font-heading text-4xl font-bold'>
                 Buy Me A Coffee
             </div>
+
+            <ConnectWallet setAccount={setConnectedAccount}/>
 
             <div className='basis-full flex flex-wrap gap-y-10 gap-x-24'>
 
                 <div className='flex flex-col gap-y-3'>
                     <span className='font-text text-gray-600 font-semibold'>Your name (optional)</span>
                     <input className='rounded-sm shadow-sm  h-10 p-1 font-text text-md focus:outline-none' value={name} onChange={(e) => setName(e.target.value)}></input>
+                    <span className='font-text text-gray-600 font-semibold'>Your linkedin (optional)</span>
+                    <input className='rounded-sm shadow-sm  h-10 p-1 font-text text-md focus:outline-none' value={linkedin} onChange={(e) => setLinkedin(e.target.value)}></input>
                     <span className='font-text text-gray-600 font-semibold mt-2'>Your message (optional)</span>
                     <textarea maxLength={100} rows={5} className='rounded-sm shadow-sm p-1 font-text text-md focus:outline-none' value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                 </div>
@@ -87,7 +94,7 @@ export default function BuyCoffee() {
 
                     <div className='flex flex-wrap items-center mt-2'>
 
-                        <button type='submit' className={`rounded-sm px-[20px] py-[10px] bg-gray-700 text-white shadow-sm font-text hover:text-gray-700 hover:bg-white transition-colors`}>
+                        <button type='submit' className={`rounded-sm px-[20px] py-[10px] bg-gray-700 text-white shadow-md font-text hover:text-gray-700 hover:bg-white transition-colors`}>
                             <FontAwesomeIcon icon={faFaceSmileBeam} className='mr-2' /> Let's do it!
                         </button>
 
@@ -101,14 +108,16 @@ export default function BuyCoffee() {
                         name: 'John Doe',
                         message: 'Hey, I love your work! Keep it up!',
                         amount: 3,
-                        currency: 'USDT'
+                        currency: 'USDT',
+                        linkedin: 'https://www.linkedin.com/in/zubair-khalid/'
                     }}/>
 
                     <CoffeeMessage msg={{
                         name: 'Mr Robot',
                         message: 'Amazing work! I love your website!',
                         amount: 5,
-                        currency: 'ETH'
+                        currency: 'ETH',
+                        linkedin: 'https://www.linkedin.com/in/zubair-khalid/'
                     }}/>
 
                 </div>
