@@ -1,13 +1,21 @@
 import hre from "hardhat";
+import dotenv from "dotenv";
+import fs from "fs";
+dotenv.config();
 
 async function main() {
-  // We get the contract to deploy.
-  const BuyMeACoffee = await hre.ethers.getContractFactory("BuyMeACoffee");
-  const buyMeACoffee = await BuyMeACoffee.deploy();
+ 
+  const Portfolio = await hre.ethers.getContractFactory("Portfolio");
+  const portfolio = await Portfolio.deploy(process.env.USDT_ADDRESS, process.env.PORTFOLIO_JSON_URL);
+  await portfolio.deployed();
 
-  await buyMeACoffee.deployed();
+  console.log("Portfolio Deployed at: ", portfolio.address);
 
-  console.log("BuyMeACoffee deployed to:", buyMeACoffee.address);
+  fs.writeFileSync("./frontend/app/src/assets/json/portfolio.json", JSON.stringify({
+    "address": portfolio.address,
+    "abi": portfolio.interface.format("json")
+  }));
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere
