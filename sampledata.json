@@ -1,0 +1,96 @@
+{
+    "name": "Zubair Khalid",
+    "profilePic": "https://iili.io/HUBoVwP.jpg",
+    "title": "Blockchain Developer",
+    "summary": "Your friendly blockchain developer with 4+ years of experience in the software development field.",
+    "cvlink": "https://nftstorage.link/ipfs/bafybeihzaglpu7vkkduk3ptbe4ujo3dsaivzznxuvr3oua3qbmundusxwy",
+    "socials": {
+        "linkedin": {
+            "username": "in/zubair-khalid",
+            "link": "https://www.linkedin.com/in/zubair-khalid/"
+        },
+        "github": {
+            "username": "dearzubi",
+            "link": "https://github.com/dearzubi"
+        },
+        "medium": {
+            "username": "@dearzubi",
+            "link": "https://medium.com/@dearzubi"
+        }
+    },
+    "expertise": [
+        {
+            "title":"Blockchain Developer",
+            "description": "Experienced in blockchain research and development, web3.0 and decentralized apps."
+        },
+        {
+            "title":"Full Stack Web Development",
+            "description": "Experienced in full stack web development using MERN and MEVN stack."
+        },
+        {
+            "title":"App Development",
+            "description": "Experienced in native android app development using Java, Firebase, and android studio."
+        }
+    ],
+    "projects": [
+        {
+            "title":"Project 1",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros quis nisl aliquam aliquet. Sed vitae eros quis nisl aliquam aliquet.",
+            "link": "#",
+            "imageUrl": "https://venturebeat.com/wp-content/uploads/2022/05/GettyImages-1357404897-KanawatTH.jpg",
+            "techStack": "React, Node, Express, MongoDB"
+        },
+        {
+            "title":"Project 2",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros quis nisl aliquam aliquet. Sed vitae eros quis nisl aliquam aliquet.",
+            "link": "#",
+            "imageUrl": "https://venturebeat.com/wp-content/uploads/2022/05/GettyImages-1357404897-KanawatTH.jpg",
+            "techStack": "React, Node, Express, MongoDB, Blockchain"
+        }
+    ],
+    "experience": [
+        {
+            "duration": "2020 - Present",
+            "title": "Blockchain Developer",
+            "company": "Company 2",
+            "responsibilities": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            ]
+        },
+        {
+            "duration": "2018 - 2020",
+            "title": "Junior Developer",
+            "company": "Company 1",
+            "responsibilities": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            ]
+        }
+    ],
+    "education": [
+        {
+            "duration": "Sept. 2020 - Oct. 2022",
+            "title": "Masters in Data Science",
+            "institute": "Information Technology University, Lahore",
+            "achievements": [
+                "Graduated with CGPA of 3.73/4.0.",
+                "Placed in top 10 of the batch.",
+                "Awared gradute student fellowship (GSF) for 1 year.",
+                "Selected as a research assistant in Blockchain Security Lab ITU."
+            ]
+        },
+        {
+            "duration": "Oct. 2015 - Aug. 2019",
+            "title": "Bachelor of Computer Engineering",
+            "institute": "University of Engineering and Technology, Taxila",
+            "achievements": [
+                "Graduated with CGPA of 3.69/4.0.",
+                "Placed at 2nd position in the batch.",
+                "Select as Software Development Team Head in Taxilan Robotics and Automation Club (TRAC) for a year"
+            ]
+        }
+    ]
+}
