@@ -30,12 +30,13 @@ contract Portfolio is AccessControl{
     // List of all memos received from coffee purchases.
     Memo[] memos;
 
-    constructor(address _usdt) {
+    constructor(address _usdt, string memory _url) {
         // Store the address of the deployer as a payable address.
         // When we withdraw funds, we'll withdraw here.
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MANAGER_ROLE, msg.sender);
         usdt = IERC20(_usdt);
+        url = _url;
     }
 
     /**
@@ -136,7 +137,6 @@ contract Portfolio is AccessControl{
         }
 
     }
-
     // Event to emit when a Memo is created.
     event NewMemo(
         address indexed from,
