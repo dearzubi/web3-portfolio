@@ -6,11 +6,11 @@ export default function Education({education}) {
         
         <div className="flex flex-wrap items-start mt-6 md:mt-2">
 
-            <span className="font-text font-semibold text-gray-500 text-sm md:mr-8 md:mt-1">
+            <span className="font-text font-semibold text-gray-500 text-sm md:mr-5 md:mt-1 min-w-[180px]">
                 {education?.duration}
             </span>
 
-            <div className="flex flex-wrap flex-col mt-4 md:mt-0">
+            <div className="flex flex-wrap flex-col mt-4 md:mt-0 lg:max-w-[450px] xl:max-w-[600px] 2xl:max-w-max">
 
                 <span className="font-text font-semibold text-gray-700 text-xl">
                     {education?.title}

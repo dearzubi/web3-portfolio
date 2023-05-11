@@ -6,11 +6,11 @@ export default function Experience({experience}) {
         
         <div className="flex flex-wrap items-start mt-6 md:mt-2">
 
-            <span className="font-text font-semibold text-gray-500 text-sm md:mr-8 md:mt-1">
+            <span className="font-text font-semibold text-gray-500 text-sm md:mr-8 md:mt-1 min-w-[180px]">
                 {experience?.duration}
             </span>
 
-            <div className="flex flex-wrap flex-col mt-4 md:mt-0">
+            <div className="flex flex-wrap flex-col mt-4 md:mt-0 max-w-[500px]">
 
                 <span className="font-text font-semibold text-gray-700 text-xl">
                     {experience?.title}
