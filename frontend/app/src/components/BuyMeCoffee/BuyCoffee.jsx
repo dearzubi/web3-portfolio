@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmileBeam} from '@fortawesome/free-regular-svg-icons';
 import { getContractInstance } from "../../utils/web3.utils.js";
+import usdtContract from '../../assets/json/usdt.json';
 
 export default function BuyCoffee({contract, amount, currency, buyerDetails}){
 
@@ -40,6 +41,12 @@ export default function BuyCoffee({contract, amount, currency, buyerDetails}){
 
             setInfo('Processing...');
 
+            const usdt = getContractInstance(
+                usdtContract.address, 
+                usdtContract.abi,
+                { provider: new ethers.providers.Web3Provider(window.ethereum).getSigner() }
+            );
+
             const txContract = getContractInstance(
                 contract.address, 
                 contract.abi,
@@ -58,6 +65,23 @@ export default function BuyCoffee({contract, amount, currency, buyerDetails}){
                     break;
                 default:
                     value = ethers.utils.parseUnits(amount.toString(), 18).toString();
+            }
+
+            if(currency === 'USDT'){
+
+                const allowance = await usdt.allowance(
+                    window.ethereum.selectedAddress, 
+                    contract.address
+                );
+
+                if(allowance < tokens){
+                    const tx = await usdt.approve(
+                        contract.address, 
+                        tokens
+                    );
+                    await tx.wait();
+                }
+
             }
 
             const tx = await txContract.buyCoffee(

@@ -94,7 +94,10 @@ contract Portfolio is AccessControl{
 
         if(msg.value == 0){
             require (usdt.allowance(msg.sender, address(this)) >= _amount, 'allowance not enough');
-            require (usdt.transferFrom(msg.sender, address(this), _amount), 'transfer failed');
+            //call usdt transferFrom function with .call
+            (bool success, bytes memory data) = address(usdt).call(abi.encodeWithSelector(0x23b872dd, msg.sender, address(this), _amount));
+            
+            require (success, 'transfer failed');
         }
 
         // Add the memo to storage!
