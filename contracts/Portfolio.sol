@@ -50,6 +50,7 @@ contract Portfolio is AccessControl{
 
     function setManager(address _manager) external onlyRole(ADMIN_ROLE) {
         grantRole(MANAGER_ROLE, _manager);
+        emit ManagerSet(_manager);
     }
 
     /**
@@ -59,6 +60,7 @@ contract Portfolio is AccessControl{
      */
     function removeManager(address _manager) external onlyRole(ADMIN_ROLE) {
         revokeRole(MANAGER_ROLE, _manager);
+        emit ManagerRemove(_manager);
     }
 
      /**
@@ -68,6 +70,7 @@ contract Portfolio is AccessControl{
      */
     function setUrl(string memory _url) external onlyRole(MANAGER_ROLE) {
         url = _url;
+        emit URLUpdate(msg.sender, _url);
     }
 
     /**
@@ -95,7 +98,7 @@ contract Portfolio is AccessControl{
         if(msg.value == 0){
             require (usdt.allowance(msg.sender, address(this)) >= _amount, 'allowance not enough');
             //call usdt transferFrom function with .call
-            (bool success, bytes memory data) = address(usdt).call(abi.encodeWithSelector(0x23b872dd, msg.sender, address(this), _amount));
+            (bool success, ) = address(usdt).call(abi.encodeWithSelector(0x23b872dd, msg.sender, address(this), _amount));
             
             require (success, 'transfer failed');
         }
@@ -135,10 +138,23 @@ contract Portfolio is AccessControl{
     function withdrawTips(address _address) external onlyRole(ADMIN_ROLE) returns(bool) {
 
         if(address(this).balance == 0){
-            require (usdt.balanceOf(address(this)) > 0, 'balance not enough');
-            require (usdt.transfer(_address, usdt.balanceOf(address(this))), 'transfer failed');
+
+            uint balance = usdt.balanceOf(address(this));
+
+            require (balance > 0, 'balance not enough');
+
+            (bool success, ) = address(usdt).call(abi.encodeWithSelector(0xa9059cbb, _address, balance));
+            
+            require (success, 'transfer failed');
+
+            emit Withdraw(msg.sender, _address, 'USDT', balance);
+            
         }else{
+
+            uint balance = address(this).balance;
             require(payable(_address).send(address(this).balance));
+            emit Withdraw(msg.sender, _address, 'ETH', balance);
+
         }
 
         return true;
@@ -196,6 +212,20 @@ contract Portfolio is AccessControl{
         string linkedin,
         string message,
         string currency,
+        uint amount
+    );
+
+    //event for manager set
+    event ManagerSet(address indexed manager);
+    //event for manager removal
+    event ManagerRemove(address indexed manager);
+    //event for url set
+    event URLUpdate(address indexed manager, string url);
+    //event for withdraw
+    event Withdraw(
+        address indexed admin, 
+        address indexed receiver,
+        string indexed currency,
         uint amount
     );
 }
