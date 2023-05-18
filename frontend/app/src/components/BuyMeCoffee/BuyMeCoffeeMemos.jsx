@@ -8,12 +8,11 @@ import { getContractInstance } from "../../utils/web3.utils.js";
 export default function BuyMeCoffeeMemos({ contractJson }) {
 
     const [memos, setMemos] = useState([]);
-    const [moreMemos, setMoreMemos] = useState([]);
-
+    const [loadMore, setLoadMore] = useState(false);
+    const [memoCount, setMemoCount] = useState(0);
     const [memoLimits, setMemoLimits] = useState({
         start: 0,
-        limit: 3,
-        max: 0
+        limit: 2
     });
 
     const jsonRpcProvider = new ethers.providers.JsonRpcProvider(import.meta.env.VITE_RPC_URL);
@@ -24,13 +23,24 @@ export default function BuyMeCoffeeMemos({ contractJson }) {
         { provider: jsonRpcProvider }
     );
 
-    const fetchMemoCount = async (contract) => {
-        return parseInt((await contract.getMemoCount()).toString());
-    }
+    const {
+        data: dataMemoCount,
+    } = useQuery(["memoCount", queryContract], async() => {
+        return parseInt((await queryContract.getMemoCount()).toString());
+    });
+    useEffect(() => { 
+        if (dataMemoCount) {
+
+            setMemoCount(dataMemoCount); 
+
+            if(dataMemoCount > 2) setLoadMore(true);
+        }
+        
+    }, [dataMemoCount]);
+
+    useEffect(() => {if(memoCount > 2) setLoadMore(true);}, [memoCount]);
 
     const fetchMemos = async (contract, {start = 0, limit = 3}) => {
-
-        console.log(start, limit);
 
         const fetchedMemos = await contract.getMemos(start, limit);
 
@@ -62,80 +72,57 @@ export default function BuyMeCoffeeMemos({ contractJson }) {
 
         });
 
-        console.log(memosList)
-
         return memosList;
-
     }
 
     const { 
-        isLoading: isMemoCountLoading, 
-        isSuccess: isMemoCountSuccess, 
-        error: memoCountError, 
-        isError: isMemoCountError, 
-        data: memoCount
-    } = useQuery(["memoCount", queryContract], () => fetchMemoCount(queryContract));
-
-    useEffect(() => {
-        if (isMemoCountSuccess && memoCount) {
-            setMemoLimits({
-                ...memoLimits,
-                start: 0,
-                max: memoCount
-            });
-        }
-    }, [isMemoCountSuccess, memoCount]);
-
-    const { 
         isLoading: isMemoLoading, 
-        isSuccess: isMemoSuccess, 
-        error: memoError, 
-        isError: isMemoError, 
+        isSuccess: isMemoSuccess,
         data: memosData
     } = useQuery(
         ["memos", queryContract], 
-        () => fetchMemos(queryContract, {start: memoLimits.start, limit: memoLimits.limit})
+        () => fetchMemos(queryContract, {start: 0, limit: 2})
     );
-
     useEffect(() => {
-        if (isMemoSuccess && memosData) {
-            
-            setMemos(memosData);
+        if (memosData) {
+
+            if(memosData.length === 0) return;
+
+            if(memos.length > 2) memosData.pop();
+
+            setMemos([...memosData, ...memos]); 
         }
-    }, [isMemoSuccess, memosData]);
+    }, [memosData]);
 
     const { 
-        isLoading: isMoreMemoLoading, 
-        isSuccess: isMoreMemoSuccess, 
-        error: moreMemoError,
-        isError: isMoreMemoError, 
         data: moreMemosData,
         refetch: refetchMoreMemos
     } = useQuery(
-        ["loadMoreMemos", queryContract, memoLimits.start, memoLimits.limit], 
-        () => fetchMemos(queryContract, {start: memoLimits.start, limit: memoLimits.limit}),
-        {
-            enabled: false
-        }
+        ["loadMoreMemos", queryContract], 
+        () => fetchMemos(queryContract, {start: memoLimits.start + memoLimits.limit, limit: memoLimits.limit}),
+        { enabled: false }
     );
 
     useEffect(() => {
-        if (isMoreMemoSuccess && moreMemosData) {
-            
+        if (moreMemosData) {
+
+            if(moreMemosData.length === 0) {
+                return setLoadMore(false);
+            };
+
             setMemos([...memos, ...moreMemosData]);
+            
         }
-    }, [isMoreMemoSuccess, moreMemosData]);
+    }, [moreMemosData]);
 
-    const loadMore = () => {
-
-        const newMemoLimits = {
-            ...memoLimits,
-            start: memoLimits.start + memoLimits.limit
-        }
-        
-        setMemoLimits(newMemoLimits);
+    const loadMoreMemos = () => {
 
         refetchMoreMemos();
+
+        setMemoLimits({
+            ...memoLimits,
+            start: memoLimits.start + memoLimits.limit
+        });
 
     }
 
@@ -147,19 +134,15 @@ export default function BuyMeCoffeeMemos({ contractJson }) {
                 isMemoLoading ? <div>Loading...</div> : null
             }
             {
-                isMemoSuccess ? memos.map((memo, index) => {
+                memos && memos.length > 0 ? memos.map((memo, index) => {
                     return <CoffeeMemo key={index} memo={memo}/>
                 }) : null
             }
 
             {
-                memos && memos.length === 0 ? <div>No memos yet</div> : null
-            }
-
-            {
-                memos && memos.length > 0 && memos.length < memoLimits.max 
+                memos && memos.length > 0 && loadMore
                 ? <button
-                    onClick={loadMore}
+                    onClick={loadMoreMemos}
                     className='bg-white rounded-sm py-[5px] px-[10px] shadow-sm font-text text-sm hover:text-white hover:bg-gray-700 transition-colors'>
                     Load More
                 </button> : null

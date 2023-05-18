@@ -99,7 +99,8 @@ export default function BuyCoffee({contract, amount, currency, buyerDetails}){
 
             setInfo('Thank you! Details in console.');
 
-            await queryClient.refetchQueries(['memos']);
+            await queryClient.refetchQueries('memoCount');
+            await queryClient.refetchQueries('memos');
 
         }catch(err){
             console.log(err);
