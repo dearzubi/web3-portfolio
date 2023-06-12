@@ -1,6 +1,5 @@
 # Web3 Portfolio
-
-A simple and clean portfolio/personal website for web3/blockchain developers.
+A simplified blockchain powerd portfolio builder for web3 devs.
 
 Stack:
 React
